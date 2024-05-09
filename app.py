@@ -1,4 +1,4 @@
-from flask import Flask,request,jsonify
+from flask import Flask,request
 import markdown
 from pdf_module import getText
 app=Flask(__name__)
@@ -15,7 +15,7 @@ def getPDFText():
         print(f.filename)
         f.save(f.filename)   
         text=getText(f.filename)
-        return jsonify({"text":text})
+        return text
     return "Send file"
 
 @app.route("/getHTML",methods=["GET","POST"])
@@ -23,5 +23,5 @@ def getHTML2Markdown():
     if request.method=="POST":
         markdown_data=request.form.get('markdown_data')
         html_data=markdown.markdown(markdown_data)
-        return jsonify({"html_data":html_data})
+        return html_data
     return "<h2>POST Request On '/getHTML' endpoint with 'markdown' data as body parameter</h2>"
